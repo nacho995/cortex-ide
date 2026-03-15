@@ -1,0 +1,17 @@
+<div class="tabs-bar">
+  @for (tab of project.openTabs(); track tab.path; let i = $index) {
+    <div
+      class="tab"
+      [class.active]="i === project.activeTabIndex()"
+      [class.modified]="tab.modified"
+      (click)="setActive(i)"
+      [title]="tab.path"
+    >
+      <span class="tab-name">{{ tab.name }}</span>
+      @if (tab.modified) {
+        <span class="dot" title="Unsaved changes">●</span>
+      }
+      <button class="close-btn" (click)="close($event, i)" title="Close tab">×</button>
+    </div>
+  }
+</div>

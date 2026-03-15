@@ -1,0 +1,39 @@
+<div class="chat">
+  <div class="header">
+    <span class="title">🤖 CORTEX AI</span>
+    <button class="clear-btn" (click)="clearChat()" title="Clear chat">⌫</button>
+  </div>
+
+  <div class="messages" #messagesEl>
+    @for (msg of msgs(); track $index) {
+      <div class="message" [class.user]="msg.role === 'user'" [class.ai]="msg.role === 'ai'">
+        <div class="who">{{ msg.role === 'user' ? 'You' : 'Cortex' }}</div>
+        <div class="text">{{ msg.text }}</div>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="message ai">
+        <div class="who">Cortex</div>
+        <div class="text thinking">
+          <span class="dot">●</span>
+          <span class="dot">●</span>
+          <span class="dot">●</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="input-area">
+    <textarea
+      [(ngModel)]="input"
+      (keydown.enter)="onEnter($event)"
+      placeholder="Ask Cortex... (Enter to send, Shift+Enter for newline)"
+      rows="3"
+      [disabled]="loading()"
+    ></textarea>
+    <button class="send-btn" (click)="send()" [disabled]="loading() || !input.trim()">
+      {{ loading() ? '...' : '↑ Send' }}
+    </button>
+  </div>
+</div>

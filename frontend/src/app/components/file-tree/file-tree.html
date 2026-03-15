@@ -1,0 +1,38 @@
+<div class="tree">
+  <div class="header">EXPLORER</div>
+
+  @if (tree()) {
+    <ng-container
+      [ngTemplateOutlet]="nodeList"
+      [ngTemplateOutletContext]="{ nodes: tree()!.children, depth: 0 }"
+    />
+  } @else {
+    <div class="empty">
+      <span>No project open</span>
+      <small>Click "Open" in the toolbar</small>
+    </div>
+  }
+</div>
+
+<ng-template #nodeList let-nodes="nodes" let-depth="depth">
+  @for (node of nodes; track node.path) {
+    <div
+      class="item"
+      [class.active]="project.activeTab()?.path === node.path"
+      [class.directory]="node.type === 'directory'"
+      [style.padding-left.px]="depth * 16 + 12"
+      (click)="click(node)"
+      [title]="node.path"
+    >
+      <span class="icon">{{ getFileIcon(node) }}</span>
+      <span class="name">{{ node.name }}</span>
+    </div>
+
+    @if (node.type === 'directory' && isExpanded(node.path) && node.children) {
+      <ng-container
+        [ngTemplateOutlet]="nodeList"
+        [ngTemplateOutletContext]="{ nodes: node.children, depth: depth + 1 }"
+      />
+    }
+  }
+</ng-template>

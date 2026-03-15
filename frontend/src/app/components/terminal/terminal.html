@@ -1,0 +1,27 @@
+<div class="terminal">
+  <div class="header">
+    <span class="title">TERMINAL</span>
+    <button class="clear-btn" (click)="clear()" title="Clear terminal">⌫ Clear</button>
+  </div>
+
+  <div class="output" #outputEl>
+    @for (line of lines(); track $index) {
+      <div class="line" [class]="line.type">{{ line.text }}</div>
+    }
+    @if (loading()) {
+      <div class="line info">Running...</div>
+    }
+  </div>
+
+  <div class="input-row">
+    <span class="prompt">$</span>
+    <input
+      [(ngModel)]="cmd"
+      (keydown.enter)="run()"
+      placeholder="Enter command..."
+      [disabled]="loading()"
+      autocomplete="off"
+      spellcheck="false"
+    />
+  </div>
+</div>

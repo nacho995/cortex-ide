@@ -1,0 +1,15 @@
+<div class="toolbar">
+  <div class="left">
+    <span class="logo">CORTEX</span>
+    <span class="sub">IDE</span>
+    @if (project.projectName()) {
+      <span class="proj">{{ project.projectName() }}</span>
+    }
+  </div>
+  <div class="right">
+    <button (click)="openProject()" title="Open Project">📁 Open</button>
+    <button (click)="project.toggleSidebar()" title="Toggle Sidebar">☰</button>
+    <button (click)="project.toggleTerminal()" title="Toggle Terminal">⌨</button>
+    <button (click)="project.toggleAiPanel()" title="Toggle AI Panel">🤖</button>
+  </div>
+</div>

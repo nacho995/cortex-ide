@@ -1,12 +1,25 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FileTree } from './components/file-tree/file-tree';
+import { Editor } from './components/editor/editor';
+import { Terminal } from './components/terminal/terminal';
+import { AiChat } from './components/ai-chat/ai-chat';
+import { Toolbar } from './components/toolbar/toolbar';
+import { StatusBar } from './components/status-bar/status-bar';
+import { Tabs } from './components/tabs/tabs';
+import { Welcome } from './components/welcome/welcome';
+import { ProjectService } from './services/project.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [
+    FileTree, Editor, Terminal,
+    AiChat, Toolbar, StatusBar,
+    Tabs, Welcome,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('frontend');
+  project = inject(ProjectService);
 }

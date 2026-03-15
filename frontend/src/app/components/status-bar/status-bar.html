@@ -1,0 +1,16 @@
+<div class="status-bar">
+  <div class="left">
+    <span class="item project">
+      📁 {{ project.projectName() || 'No project' }}
+    </span>
+    @if (project.activeTab()) {
+      <span class="item">{{ project.activeTab()!.language }}</span>
+      @if (project.activeTab()!.modified) {
+        <span class="item modified">● Unsaved</span>
+      }
+    }
+  </div>
+  <div class="right">
+    <span class="item">Cortex IDE v0.1.0</span>
+  </div>
+</div>
