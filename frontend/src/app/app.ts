@@ -8,6 +8,7 @@ import { StatusBar } from './components/status-bar/status-bar';
 import { Tabs } from './components/tabs/tabs';
 import { Welcome } from './components/welcome/welcome';
 import { ProjectService } from './services/project.service';
+import { UiPreferencesService } from './services/ui-preferences.service';
 
 @Component({
   selector: 'app-root',
@@ -22,4 +23,5 @@ import { ProjectService } from './services/project.service';
 })
 export class App {
   project = inject(ProjectService);
+  ui = inject(UiPreferencesService);
 }

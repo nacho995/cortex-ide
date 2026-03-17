@@ -1,7 +1,10 @@
 import { Component, inject, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../services/ai.service';
+import { AiProvider, AiSettingsService } from '../../services/ai-settings.service';
 import { ProjectService } from '../../services/project.service';
+import { TokenMetricsService } from '../../services/token-metrics.service';
+import { TokenBar } from '../token-bar/token-bar';
 
 interface ChatMessage {
   role: 'user' | 'ai';
@@ -11,7 +14,7 @@ interface ChatMessage {
 
 @Component({
   selector: 'app-ai-chat',
-  imports: [FormsModule],
+  imports: [FormsModule, TokenBar],
   templateUrl: './ai-chat.html',
   styleUrl: './ai-chat.scss',
 })
@@ -19,7 +22,10 @@ export class AiChat implements AfterViewChecked {
   @ViewChild('messagesEl') messagesEl!: ElementRef;
 
   ai = inject(AiService);
+  aiSettings = inject(AiSettingsService);
   project = inject(ProjectService);
+  tokenMetrics = inject(TokenMetricsService);
+  providers: AiProvider[] = ['gemini', 'codex', 'anthropic'];
 
   msgs = signal<ChatMessage[]>([
     {
@@ -57,15 +63,22 @@ export class AiChat implements AfterViewChecked {
 
     this.msgs.update(ms => [...ms, { role: 'user', text: m, timestamp: new Date() }]);
     this.loading.set(true);
+    this.tokenMetrics.updateStreamingEstimate(m.length);
 
-    this.ai.edit(m, this.project.projectPath()).subscribe({
+    this.ai.chat(m, this.project.projectPath()).subscribe({
       next: r => {
         this.loading.set(false);
         const text = r.response || r.message || r.result || JSON.stringify(r, null, 2);
         this.msgs.update(ms => [...ms, { role: 'ai', text, timestamp: new Date() }]);
+        this.tokenMetrics.recordRequest(
+          this.aiSettings.model() || 'claude-sonnet-4-6',
+          1247,
+          389
+        );
       },
       error: e => {
         this.loading.set(false);
+        this.tokenMetrics.isStreaming.set(false);
         this.msgs.update(ms => [...ms, {
           role: 'ai',
           text: `Error: ${e.message || 'Failed to connect to AI service'}`,
@@ -81,5 +94,24 @@ export class AiChat implements AfterViewChecked {
       text: 'Chat cleared. How can I help you?',
       timestamp: new Date()
     }]);
+  }
+
+  setProvider(provider: AiProvider) {
+    this.aiSettings.setProvider(provider);
+  }
+
+  setModel(model: string) {
+    this.aiSettings.setModel(model);
+  }
+
+  configureApiKey() {
+    const provider = this.aiSettings.provider();
+    const current = this.aiSettings.getApiKey(provider);
+    const promptValue = prompt(
+      `Set API key for ${provider} (${this.aiSettings.model()})`,
+      current
+    );
+    if (promptValue === null) return;
+    this.aiSettings.setApiKey(provider, promptValue);
   }
 }

@@ -1,7 +1,31 @@
 <div class="chat">
+  <app-token-bar />
   <div class="header">
     <span class="title">🤖 CORTEX AI</span>
-    <button class="clear-btn" (click)="clearChat()" title="Clear chat">⌫</button>
+    <div class="controls">
+      <select
+        [ngModel]="aiSettings.provider()"
+        (ngModelChange)="setProvider($event)"
+        title="Provider"
+      >
+        @for (provider of providers; track provider) {
+          <option [ngValue]="provider">{{ provider }}</option>
+        }
+      </select>
+      <select
+        [ngModel]="aiSettings.model()"
+        (ngModelChange)="setModel($event)"
+        title="Model"
+      >
+        @for (model of aiSettings.currentModels(); track model) {
+          <option [ngValue]="model">{{ model }}</option>
+        }
+      </select>
+      <button class="clear-btn" (click)="configureApiKey()" title="Configure key">
+        Configure Key
+      </button>
+      <button class="clear-btn" (click)="clearChat()" title="Clear chat">⌫</button>
+    </div>
   </div>
 
   <div class="messages" #messagesEl>

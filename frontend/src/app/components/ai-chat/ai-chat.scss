@@ -14,9 +14,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   padding: 8px 12px;
   border-bottom: 1px solid #21262d;
   flex-shrink: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .title {
@@ -24,6 +31,7 @@
   font-weight: 600;
   color: #58a6ff;
   letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 .clear-btn {
@@ -39,6 +47,15 @@
     background: #21262d;
     color: #c9d1d9;
   }
+}
+
+select {
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 11px;
 }
 
 .messages {

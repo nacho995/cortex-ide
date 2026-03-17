@@ -7,6 +7,17 @@
     }
   </div>
   <div class="right">
+    <label class="bg-picker">
+      Background
+      <select [ngModel]="ui.background()" (ngModelChange)="setBackground($event)">
+        @for (mode of backgroundModes; track mode) {
+          <option [ngValue]="mode">{{ mode }}</option>
+        }
+      </select>
+    </label>
+    <button (click)="toggleMatrixRain()" title="Toggle Matrix Rain">
+      {{ ui.matrixRainEnabled() ? 'Matrix ON' : 'Matrix OFF' }}
+    </button>
     <button (click)="openProject()" title="Open Project">📁 Open</button>
     <button (click)="project.toggleSidebar()" title="Toggle Sidebar">☰</button>
     <button (click)="project.toggleTerminal()" title="Toggle Terminal">⌨</button>

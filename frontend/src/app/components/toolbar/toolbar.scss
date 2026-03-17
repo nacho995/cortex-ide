@@ -17,7 +17,25 @@
 
 .right {
   display: flex;
+  align-items: center;
   gap: 4px;
+}
+
+.bg-picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #8b949e;
+}
+
+select {
+  background: #0d1117;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 11px;
 }
 
 .logo {

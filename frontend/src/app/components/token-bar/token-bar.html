@@ -1,0 +1,29 @@
+<div class="token-bar" [class.streaming]="metrics.isStreaming()">
+  <div class="model-badge">
+    <span class="model-dot" [class.low]="metrics.costLevel() === 'low'" [class.medium]="metrics.costLevel() === 'medium'" [class.high]="metrics.costLevel() === 'high'"></span>
+    <span class="model-name">{{ metrics.activeModel() }}</span>
+  </div>
+
+  @if (metrics.isStreaming()) {
+    <div class="streaming-info">
+      <span class="streaming-dot"></span>
+      <span>~{{ metrics.streamingTokenEstimate() }} tokens</span>
+      <span class="streaming-cost">~{{ estimateStreamingCost() | number:'1.4-4' }}€</span>
+    </div>
+  } @else if (metrics.lastRequestCost() > 0) {
+    <div class="last-request" title="Input: {{ metrics.lastRequestInput() }} + Output: {{ metrics.lastRequestOutput() }} tokens">
+      <span>{{ metrics.lastRequestInput() + metrics.lastRequestOutput() }} tk</span>
+      <span class="cost">{{ metrics.lastRequestCost() | number:'1.4-4' }}€</span>
+    </div>
+  }
+
+  <div class="session-total" title="Session: {{ metrics.sessionTotalInput() }} in + {{ metrics.sessionTotalOutput() - metrics.sessionTotalInput() }} out">
+    <span class="total-tokens">{{ metrics.sessionTotalTokens() | number }} tk</span>
+    <span class="total-cost" [class.low]="metrics.costLevel() === 'low'" [class.medium]="metrics.costLevel() === 'medium'" [class.high]="metrics.costLevel() === 'high'">
+      {{ metrics.sessionTotalCost() | number:'1.3-3' }}€
+    </span>
+    <div class="cost-bar">
+      <div class="cost-fill" [style.width.%]="getCostPercentage()" [class.low]="metrics.costLevel() === 'low'" [class.medium]="metrics.costLevel() === 'medium'" [class.high]="metrics.costLevel() === 'high'"></div>
+    </div>
+  </div>
+</div>
