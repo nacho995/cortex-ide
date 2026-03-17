@@ -1,0 +1,29 @@
+@if (orch.isActive()) {
+  <div class="plan-container">
+    <div class="plan-header">
+      <span class="plan-icon">📋</span>
+      <span class="plan-title">{{ orch.taskDescription() }}</span>
+    </div>
+
+    <div class="subtask-list">
+      @for (task of orch.subtasks(); track task.id) {
+        <div class="subtask" [class]="'status-' + task.status">
+          <span class="subtask-status">{{ getStatusIcon(task.status) }}</span>
+          <span class="subtask-num">{{ task.id }}.</span>
+          <span class="subtask-desc">{{ task.description }}</span>
+          <span class="subtask-agent">&#64;{{ task.agent }}</span>
+          @if (task.tokensUsed > 0) {
+            <span class="subtask-tokens">{{ task.tokensUsed | number }} tk</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="plan-footer">
+      <div class="progress-track">
+        <div class="progress-fill" [style.width.%]="orch.progress()"></div>
+      </div>
+      <span class="progress-text">{{ orch.completedCount() }}/{{ orch.totalCount() }} subtasks</span>
+    </div>
+  </div>
+}

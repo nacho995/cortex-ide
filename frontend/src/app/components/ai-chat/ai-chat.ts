@@ -6,6 +6,8 @@ import { ProjectService } from '../../services/project.service';
 import { TokenMetricsService } from '../../services/token-metrics.service';
 import { TokenBar } from '../token-bar/token-bar';
 import { AgentFlowService } from '../../services/agent-flow.service';
+import { OrchestratorService } from '../../services/orchestrator.service';
+import { OrchestratorPlan } from '../orchestrator-plan/orchestrator-plan';
 
 interface ChatMessage {
   role: 'user' | 'ai';
@@ -15,7 +17,7 @@ interface ChatMessage {
 
 @Component({
   selector: 'app-ai-chat',
-  imports: [FormsModule, TokenBar],
+  imports: [FormsModule, TokenBar, OrchestratorPlan],
   templateUrl: './ai-chat.html',
   styleUrl: './ai-chat.scss',
 })
@@ -27,6 +29,7 @@ export class AiChat implements AfterViewChecked {
   project = inject(ProjectService);
   tokenMetrics = inject(TokenMetricsService);
   private agentFlow = inject(AgentFlowService);
+  private orchestrator = inject(OrchestratorService);
   providers: AiProvider[] = ['gemini', 'codex', 'anthropic'];
 
   msgs = signal<ChatMessage[]>([
@@ -67,6 +70,7 @@ export class AiChat implements AfterViewChecked {
     this.loading.set(true);
     this.tokenMetrics.updateStreamingEstimate(m.length);
     this.agentFlow.simulateTask(m);
+    this.orchestrator.simulatePlan(m);
 
     this.ai.chat(m, this.project.projectPath()).subscribe({
       next: r => {

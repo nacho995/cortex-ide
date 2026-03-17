@@ -28,6 +28,8 @@
     </div>
   </div>
 
+  <app-orchestrator-plan />
+
   <div class="messages" #messagesEl>
     @for (msg of msgs(); track $index) {
       <div class="message" [class.user]="msg.role === 'user'" [class.ai]="msg.role === 'ai'">

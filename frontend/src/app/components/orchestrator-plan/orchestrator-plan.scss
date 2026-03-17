@@ -1,0 +1,115 @@
+.plan-container {
+  background: rgba(13, 17, 23, 0.95);
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  margin: 8px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.plan-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #21262d;
+  background: rgba(88, 166, 255, 0.04);
+}
+
+.plan-icon { font-size: 14px; }
+
+.plan-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c9d1d9;
+}
+
+.subtask-list {
+  padding: 6px 0;
+}
+
+.subtask {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  font-size: 12px;
+  transition: all 0.3s;
+
+  &.status-done {
+    .subtask-desc { color: #8b949e; text-decoration: line-through; }
+  }
+  &.status-working {
+    background: rgba(88, 166, 255, 0.06);
+    .subtask-desc { color: #58a6ff; }
+  }
+  &.status-pending {
+    .subtask-desc { color: #484f58; }
+  }
+}
+
+.subtask-status {
+  width: 18px;
+  text-align: center;
+  font-size: 12px;
+  &.status-working { animation: spin 1.5s linear infinite; }
+}
+
+.subtask-num {
+  color: #484f58;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  min-width: 16px;
+}
+
+.subtask-desc {
+  flex: 1;
+  color: #c9d1d9;
+}
+
+.subtask-agent {
+  font-size: 10px;
+  color: #bc8cff;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.subtask-tokens {
+  font-size: 9px;
+  color: #484f58;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.plan-footer {
+  padding: 8px 14px;
+  border-top: 1px solid #21262d;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 4px;
+  background: #21262d;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #58a6ff, #3fb950);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  font-size: 10px;
+  color: #484f58;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
