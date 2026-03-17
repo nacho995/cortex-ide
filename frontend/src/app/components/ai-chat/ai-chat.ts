@@ -1,4 +1,5 @@
 import { Component, inject, signal, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../services/ai.service';
 import { AiProvider, AiSettingsService } from '../../services/ai-settings.service';
@@ -8,6 +9,7 @@ import { TokenBar } from '../token-bar/token-bar';
 import { AgentFlowService } from '../../services/agent-flow.service';
 import { OrchestratorService } from '../../services/orchestrator.service';
 import { OrchestratorPlan } from '../orchestrator-plan/orchestrator-plan';
+import { AgentMindMap } from '../agent-mind-map/agent-mind-map';
 
 interface ChatMessage {
   role: 'user' | 'ai';
@@ -17,7 +19,7 @@ interface ChatMessage {
 
 @Component({
   selector: 'app-ai-chat',
-  imports: [FormsModule, TokenBar, OrchestratorPlan],
+  imports: [FormsModule, DecimalPipe, TokenBar, OrchestratorPlan, AgentMindMap],
   templateUrl: './ai-chat.html',
   styleUrl: './ai-chat.scss',
 })
@@ -28,9 +30,10 @@ export class AiChat implements AfterViewChecked {
   aiSettings = inject(AiSettingsService);
   project = inject(ProjectService);
   tokenMetrics = inject(TokenMetricsService);
-  private agentFlow = inject(AgentFlowService);
+  flow = inject(AgentFlowService);
   private orchestrator = inject(OrchestratorService);
   providers: AiProvider[] = ['gemini', 'codex', 'anthropic'];
+  showMindMap = signal(false);
 
   msgs = signal<ChatMessage[]>([
     {
@@ -69,7 +72,7 @@ export class AiChat implements AfterViewChecked {
     this.msgs.update(ms => [...ms, { role: 'user', text: m, timestamp: new Date() }]);
     this.loading.set(true);
     this.tokenMetrics.updateStreamingEstimate(m.length);
-    this.agentFlow.simulateTask(m);
+    this.flow.simulateTask(m);
     this.orchestrator.simulatePlan(m);
 
     this.ai.chat(m, this.project.projectPath()).subscribe({
@@ -109,6 +112,11 @@ export class AiChat implements AfterViewChecked {
 
   setModel(model: string) {
     this.aiSettings.setModel(model);
+  }
+
+  estimateCurrentCost(): number {
+    const tokens = this.tokenMetrics.streamingTokenEstimate();
+    return (tokens / 1000) * 0.015; // approximate output cost
   }
 
   configureApiKey() {

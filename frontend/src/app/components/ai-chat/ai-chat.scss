@@ -104,22 +104,52 @@ select {
 
 .thinking {
   display: flex;
+  flex-direction: column;
   gap: 4px;
-  align-items: center;
 }
 
-.dot {
+.thinking-dots {
   color: #58a6ff;
-  font-size: 10px;
-  animation: pulse 1.4s infinite;
+  font-size: 12px;
 
-  &:nth-child(2) { animation-delay: 0.2s; }
-  &:nth-child(3) { animation-delay: 0.4s; }
+  &::after {
+    content: '';
+    animation: dots 1.5s steps(3, end) infinite;
+  }
 }
 
-@keyframes pulse {
+@keyframes dots {
+  0%   { content: '.'; }
+  33%  { content: '..'; }
+  66%  { content: '...'; }
+}
+
+.streaming-counter {
+  margin-top: 6px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #484f58;
+  animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+}
+
+.map-btn {
+  margin: 8px;
+  padding: 6px 14px;
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  border-radius: 6px;
+  color: #58a6ff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: flex-start;
+
+  &:hover { background: rgba(88, 166, 255, 0.2); }
 }
 
 .input-area {

@@ -1,0 +1,68 @@
+<div class="mind-map-overlay" (click)="onClose()">
+  <div class="mind-map-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>🧠 Agent Communication Map</h3>
+      <button class="close-btn" (click)="onClose()">✕</button>
+    </div>
+
+    <div class="map-container">
+      <svg class="connections" width="100%" height="100%">
+        <!-- Lines drawn via CSS positioning -->
+      </svg>
+
+      <div class="nodes-grid">
+        <!-- Orchestrator at top -->
+        <div class="node-row top">
+          @for (agent of flow.agents(); track agent.id) {
+            @if (agent.id === 'orchestrator') {
+              <div class="node orchestrator" [style.width.px]="getNodeSize(agent)" [style.height.px]="getNodeSize(agent)"
+                   [style.borderColor]="getNodeColor(agent.status)" (click)="selectAgent(agent)">
+                <span class="node-icon">{{ agent.icon }}</span>
+                <span class="node-name">{{ agent.name }}</span>
+                <span class="node-tokens">{{ agent.tokensUsed | number }} tk</span>
+              </div>
+            }
+          }
+        </div>
+
+        <!-- Workers row -->
+        <div class="connector-lines">
+          <div class="vertical-line"></div>
+          <div class="horizontal-line"></div>
+        </div>
+
+        <div class="node-row workers">
+          @for (agent of flow.agents(); track agent.id) {
+            @if (agent.id !== 'orchestrator' && agent.status !== 'waiting') {
+              <div class="node" [style.width.px]="getNodeSize(agent)" [style.height.px]="getNodeSize(agent)"
+                   [style.borderColor]="getNodeColor(agent.status)" (click)="selectAgent(agent)">
+                <span class="node-icon">{{ agent.icon }}</span>
+                <span class="node-name">{{ agent.name }}</span>
+                <span class="node-tokens">{{ agent.tokensUsed | number }} tk</span>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail panel -->
+    @if (getSelected()) {
+      <div class="detail-panel">
+        <div class="detail-header">
+          <span>{{ getSelected()!.icon }} {{ getSelected()!.name }}</span>
+          <span class="detail-status" [style.color]="getNodeColor(getSelected()!.status)">{{ getSelected()!.status }}</span>
+        </div>
+        <div class="detail-task">{{ getSelected()!.task }}</div>
+        <div class="detail-tokens">Tokens: {{ getSelected()!.tokensUsed | number }}</div>
+        @if (getSelected()!.invokedBy) {
+          <div class="detail-invoked">Invoked by: {{ getSelected()!.invokedBy }}</div>
+        }
+      </div>
+    }
+
+    <div class="modal-footer">
+      <span class="total-info">Total: {{ flow.totalTokens() | number }} tokens · {{ flow.agents().length }} agents</span>
+    </div>
+  </div>
+</div>

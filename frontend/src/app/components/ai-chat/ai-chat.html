@@ -42,13 +42,22 @@
       <div class="message ai">
         <div class="who">Cortex</div>
         <div class="text thinking">
-          <span class="dot">●</span>
-          <span class="dot">●</span>
-          <span class="dot">●</span>
+          <span class="thinking-dots">Generating response</span>
+          <div class="streaming-counter">
+            📊 ~{{ tokenMetrics.streamingTokenEstimate() }} tokens · ~{{ estimateCurrentCost() | number:'1.4-4' }}€
+          </div>
         </div>
       </div>
     }
   </div>
+
+  @if (!flow.isActive() && flow.agents().length > 0) {
+    <button class="map-btn" (click)="showMindMap.set(true)">🧠 View Agent Map</button>
+  }
+
+  @if (showMindMap()) {
+    <app-agent-mind-map (close)="showMindMap.set(false)" />
+  }
 
   <div class="input-area">
     <textarea
