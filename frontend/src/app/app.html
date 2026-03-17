@@ -3,44 +3,76 @@
   [class.bg-default]="ui.background() === 'default'"
   [class.bg-midnight]="ui.background() === 'midnight'"
   [class.bg-aurora]="ui.background() === 'aurora'"
+  [class.layout-agent]="project.layoutMode() === 'agent'"
+  [class.layout-editor]="project.layoutMode() === 'editor'"
 >
   @if (ui.matrixRainEnabled()) {
     <div class="matrix-overlay" aria-hidden="true"></div>
   }
   <app-toolbar />
-  <div class="ide-main">
-    @if (project.sidebarVisible()) {
-      <div class="sidebar">
+
+  @if (project.layoutMode() === 'agent') {
+    <!-- AGENT MODE: [Agent Flow | Chat/Plan | Editor] -->
+    <div class="ide-main">
+      <div class="agent-sidebar">
         @if (agentFlow.isActive()) {
           <app-agent-flow />
         } @else {
           <app-file-tree />
         }
       </div>
-      <div class="resize-handle sidebar-handle"></div>
-    }
-    <div class="center">
-      <app-tabs />
-      <div class="editor-area">
-        @if (project.activeTab()) {
-          <app-editor />
-        } @else {
-          <app-welcome />
+      <div class="agent-center">
+        <app-ai-chat />
+      </div>
+      <div class="agent-editor">
+        <app-tabs />
+        <div class="editor-area">
+          @if (project.activeTab()) {
+            <app-editor />
+          } @else {
+            <app-welcome />
+          }
+        </div>
+        @if (project.terminalVisible()) {
+          <div class="terminal-panel">
+            <app-terminal />
+          </div>
         }
       </div>
-      @if (project.terminalVisible()) {
-        <div class="resize-handle terminal-handle"></div>
-        <div class="terminal-panel">
-          <app-terminal />
+    </div>
+  } @else {
+    <!-- EDITOR MODE: [Sidebar | Editor | Chat] -->
+    <div class="ide-main">
+      @if (project.sidebarVisible()) {
+        <div class="sidebar">
+          @if (agentFlow.isActive()) {
+            <app-agent-flow />
+          } @else {
+            <app-file-tree />
+          }
+        </div>
+      }
+      <div class="center">
+        <app-tabs />
+        <div class="editor-area">
+          @if (project.activeTab()) {
+            <app-editor />
+          } @else {
+            <app-welcome />
+          }
+        </div>
+        @if (project.terminalVisible()) {
+          <div class="terminal-panel">
+            <app-terminal />
+          </div>
+        }
+      </div>
+      @if (project.aiPanelVisible()) {
+        <div class="ai-panel">
+          <app-ai-chat />
         </div>
       }
     </div>
-    @if (project.aiPanelVisible()) {
-      <div class="resize-handle ai-handle"></div>
-      <div class="ai-panel">
-        <app-ai-chat />
-      </div>
-    }
-  </div>
+  }
   <app-status-bar />
 </div>

@@ -19,6 +19,12 @@
       {{ ui.matrixRainEnabled() ? 'Matrix ON' : 'Matrix OFF' }}
     </button>
     <button (click)="openProject()" title="Open Project">📁 Open</button>
+    <button
+      (click)="project.toggleLayout()"
+      [title]="project.layoutMode() === 'agent' ? 'Switch to Editor mode' : 'Switch to Agent mode'"
+    >
+      {{ project.layoutMode() === 'agent' ? '📝' : '⚡' }}
+    </button>
     <button (click)="project.toggleSidebar()" title="Toggle Sidebar">☰</button>
     <button (click)="project.toggleTerminal()" title="Toggle Terminal">⌨</button>
     <button (click)="project.toggleAiPanel()" title="Toggle AI Panel">🤖</button>

@@ -17,6 +17,9 @@ export class ProjectService {
   sidebarVisible = signal<boolean>(true);
   terminalVisible = signal<boolean>(true);
   aiPanelVisible = signal<boolean>(true);
+  layoutMode = signal<'agent' | 'editor'>(
+    (localStorage.getItem('cortex.layoutMode') as 'agent' | 'editor') ?? 'agent'
+  );
 
   activeTab = computed(() => {
     const tabs = this.openTabs();
@@ -69,4 +72,12 @@ export class ProjectService {
   toggleSidebar() { this.sidebarVisible.update(v => !v); }
   toggleTerminal() { this.terminalVisible.update(v => !v); }
   toggleAiPanel() { this.aiPanelVisible.update(v => !v); }
+
+  toggleLayout() {
+    this.layoutMode.update(m => {
+      const next = m === 'agent' ? 'editor' : 'agent';
+      localStorage.setItem('cortex.layoutMode', next);
+      return next;
+    });
+  }
 }
