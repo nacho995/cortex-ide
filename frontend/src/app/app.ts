@@ -7,8 +7,10 @@ import { Toolbar } from './components/toolbar/toolbar';
 import { StatusBar } from './components/status-bar/status-bar';
 import { Tabs } from './components/tabs/tabs';
 import { Welcome } from './components/welcome/welcome';
+import { AgentFlow } from './components/agent-flow/agent-flow';
 import { ProjectService } from './services/project.service';
 import { UiPreferencesService } from './services/ui-preferences.service';
+import { AgentFlowService } from './services/agent-flow.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +18,7 @@ import { UiPreferencesService } from './services/ui-preferences.service';
   imports: [
     FileTree, Editor, Terminal,
     AiChat, Toolbar, StatusBar,
-    Tabs, Welcome,
+    Tabs, Welcome, AgentFlow,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -24,4 +26,5 @@ import { UiPreferencesService } from './services/ui-preferences.service';
 export class App {
   project = inject(ProjectService);
   ui = inject(UiPreferencesService);
+  agentFlow = inject(AgentFlowService);
 }

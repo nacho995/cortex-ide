@@ -11,7 +11,11 @@
   <div class="ide-main">
     @if (project.sidebarVisible()) {
       <div class="sidebar">
-        <app-file-tree />
+        @if (agentFlow.isActive()) {
+          <app-agent-flow />
+        } @else {
+          <app-file-tree />
+        }
       </div>
       <div class="resize-handle sidebar-handle"></div>
     }

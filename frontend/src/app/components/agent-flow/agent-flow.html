@@ -1,0 +1,48 @@
+<div class="agent-flow">
+  <div class="flow-header">
+    <span class="flow-icon">⚡</span>
+    <span class="flow-title">AGENTS</span>
+  </div>
+
+  <div class="flow-content">
+    @for (agent of activeAgents(); track agent.id) {
+      <div class="agent-card" [class]="'status-' + agent.status">
+        @if (agent.invokedBy) {
+          <div class="connector">
+            <div class="connector-line"></div>
+            <span class="connector-label">delegated</span>
+          </div>
+        }
+        <div class="agent-header">
+          <span class="agent-icon">{{ agent.icon }}</span>
+          <span class="agent-name">{{ agent.name }}</span>
+          <span class="status-badge" [class]="agent.status">{{ getStatusIcon(agent.status) }}</span>
+        </div>
+        <div class="agent-task">{{ agent.task }}</div>
+        @if (agent.tokensUsed > 0) {
+          <div class="agent-tokens">{{ agent.tokensUsed | number }} tokens</div>
+        }
+        @if (agent.status === 'working') {
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        }
+      </div>
+    }
+
+    @for (agent of waitingAgents(); track agent.id) {
+      <div class="agent-card status-waiting">
+        <div class="agent-header">
+          <span class="agent-icon">{{ agent.icon }}</span>
+          <span class="agent-name">{{ agent.name }}</span>
+          <span class="status-badge waiting">○</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="flow-footer">
+    <span>⏱ {{ flow.formatTime(flow.elapsedSeconds()) }}</span>
+    <span>📊 {{ flow.totalTokens() | number }} tk</span>
+  </div>
+</div>

@@ -5,6 +5,7 @@ import { AiProvider, AiSettingsService } from '../../services/ai-settings.servic
 import { ProjectService } from '../../services/project.service';
 import { TokenMetricsService } from '../../services/token-metrics.service';
 import { TokenBar } from '../token-bar/token-bar';
+import { AgentFlowService } from '../../services/agent-flow.service';
 
 interface ChatMessage {
   role: 'user' | 'ai';
@@ -25,6 +26,7 @@ export class AiChat implements AfterViewChecked {
   aiSettings = inject(AiSettingsService);
   project = inject(ProjectService);
   tokenMetrics = inject(TokenMetricsService);
+  private agentFlow = inject(AgentFlowService);
   providers: AiProvider[] = ['gemini', 'codex', 'anthropic'];
 
   msgs = signal<ChatMessage[]>([
@@ -64,6 +66,7 @@ export class AiChat implements AfterViewChecked {
     this.msgs.update(ms => [...ms, { role: 'user', text: m, timestamp: new Date() }]);
     this.loading.set(true);
     this.tokenMetrics.updateStreamingEstimate(m.length);
+    this.agentFlow.simulateTask(m);
 
     this.ai.chat(m, this.project.projectPath()).subscribe({
       next: r => {
