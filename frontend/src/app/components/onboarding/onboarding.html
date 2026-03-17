@@ -1,0 +1,38 @@
+<div class="onboarding-overlay">
+  <div class="onboarding-modal">
+    <div class="logo-section">
+      <h1 class="logo">CORTEX</h1>
+      <p class="logo-sub">IDE</p>
+      <p class="tagline">AI-Powered Development Environment</p>
+    </div>
+
+    <h2>How do you want to work?</h2>
+
+    <div class="mode-cards">
+      <div class="mode-card agent" (click)="selectMode('agent')">
+        <div class="mode-icon">⚡</div>
+        <h3>Agent Mode</h3>
+        <p>Conversation first. AI agents work for you while you guide them. Code is the result, not the focus.</p>
+        <div class="mode-features">
+          <span>Multi-agent orchestration</span>
+          <span>Real-time task planning</span>
+          <span>Agent communication map</span>
+        </div>
+        <div class="recommended">Recommended</div>
+      </div>
+
+      <div class="mode-card editor" (click)="selectMode('editor')">
+        <div class="mode-icon">📝</div>
+        <h3>Editor Mode</h3>
+        <p>Code first. Traditional IDE layout with AI assistant on the side. You write, AI helps.</p>
+        <div class="mode-features">
+          <span>Monaco editor (VS Code)</span>
+          <span>File tree navigation</span>
+          <span>AI chat sidebar</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="switch-note">You can switch anytime with the ⚡/📝 button in the toolbar</p>
+  </div>
+</div>

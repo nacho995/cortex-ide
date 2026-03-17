@@ -1,0 +1,133 @@
+.onboarding-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.5s ease;
+}
+
+.onboarding-modal {
+  text-align: center;
+  max-width: 700px;
+  padding: 40px;
+}
+
+.logo-section { margin-bottom: 30px; }
+
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 56px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f85149, #58a6ff, #3fb950);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 18px;
+  color: #484f58;
+  font-weight: 300;
+  margin-top: -4px;
+}
+
+.tagline {
+  color: #8b949e;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+h2 {
+  color: #c9d1d9;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.mode-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.mode-card {
+  flex: 1;
+  max-width: 280px;
+  padding: 24px;
+  background: #161b22;
+  border: 2px solid #21262d;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  &.agent:hover { border-color: #58a6ff; }
+  &.editor:hover { border-color: #3fb950; }
+}
+
+.mode-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.mode-card h3 {
+  color: #c9d1d9;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.mode-card p {
+  color: #8b949e;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.mode-features {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  span {
+    font-size: 11px;
+    color: #484f58;
+    &::before { content: '• '; color: #58a6ff; }
+  }
+}
+
+.recommended {
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  background: linear-gradient(135deg, #58a6ff, #3fb950);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.switch-note {
+  color: #484f58;
+  font-size: 11px;
+  margin-top: 24px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

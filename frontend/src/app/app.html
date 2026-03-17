@@ -1,3 +1,6 @@
+@if (showOnboarding()) {
+  <app-onboarding (done)="showOnboarding.set(false)" />
+}
 <div
   class="ide-container"
   [class.bg-default]="ui.background() === 'default'"
